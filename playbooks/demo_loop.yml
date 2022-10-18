@@ -1,0 +1,26 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  #recogida de los facts
+  gather_facts: false
+  tasks:
+  - name: creamos grupos de usuarios
+    group:
+      name: "{{ item }}"
+    with_items: 
+    - web
+    - db
+  - name: creamos usuarios
+    user:
+      name: "{{ item.username }}"
+      group: "{{ item.groupname }}"
+      shell: "/bin/bash"
+      comment: "usuario creado con ansible en linux"
+      state: present 
+    #para las iteraciones usamos with_items y en cada una cogera un item.
+    with_items:
+      - { username: 'paco',groupname: 'web'}
+      - { username: 'maria',groupname: 'web'}
+      - { username: 'paco',groupname: 'db'}
+      - { username: 'paco',groupname: 'db'} 
+    

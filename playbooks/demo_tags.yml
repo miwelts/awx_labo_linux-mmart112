@@ -1,0 +1,25 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  #recogida de los facts
+  gather_facts: false
+  tasks:
+  - name: procedemos a instalar apache
+    package:
+      name: httpd
+      state: latest
+    tags: install
+  - name: levantamos httpd y persssitente al reboot
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    tags: config
+  - name: creando fichelo index
+    file:
+      path: /var/www/html/index.html
+      state: touch
+  - name: editamos en la pagina de inicio
+    copy:
+      content: "hola mundo"
+      dest: /var/www/html/index.html

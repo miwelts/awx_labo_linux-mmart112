@@ -1,0 +1,16 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  tasks:
+  - name: check webpage
+    uri:
+      url: "http://{{ ansible_hostname }}"
+    register: output_web
+    ignore_errors: true
+  - name: show output_web content
+    debug:
+      msg: "{{ output_web}}"
+  - name: crea fichero de prueba
+    file:
+      path: /var/tmp/prueba    
+      state: touch
