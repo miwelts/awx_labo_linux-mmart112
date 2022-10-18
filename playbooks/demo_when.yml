@@ -1,0 +1,12 @@
+---
+- hosts: "{{ hosts }}"
+  become: true
+  #recogida de los facts
+  #gather_facts: false
+  tasks:
+  - name: crear dir prueba
+    file:
+      path: /var/tmp/carpeta_MMC
+      state: directory
+    when: ansible_default_ipv4.address == "192.168.17.106"
+  
